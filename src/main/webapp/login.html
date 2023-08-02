@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>登录</title>
+    <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+    <style>
+        * {
+            background-image: url("imgs/bg.JPG");
+            background-size: 100vw 100vh;
+            margin: 0;
+            padding: 0;
+        }
+
+        #div1 {
+            margin: 0 auto;
+            width: 600px;
+            height: 400px;
+            background: rgba(0, 0, 0, 0);
+        }
+
+        #div2 {
+            padding: 60px;
+            width: 200px;
+            margin: 50px 200px auto 200px;
+            background: rgba(0, 0, 0, 0);
+        }
+    </style>
+<script>
+    $(function () {
+        $("#loginBtn").click(function () {
+            let username = $("#username").val();
+            let password = $("#password").val();
+            let user = {"username": username, "password": password};
+            $.post(
+                '/user',
+                {"data": JSON.stringify(user)},
+                function (result) {
+                    let json = JSON.parse(result);
+                    if (json.isOk == true) {
+                        alert("登录成功");
+                        window.location.href = "http://localhost:8080/index.html";
+                    } else {
+                        $('#essMsg').html("输错了，笨比!");
+                    }
+                }
+            )
+        })
+    })
+</script>
+
+</head>
+<body>
+
+<div id="div1">
+    <div id="div2">
+        用户名:<input type="text" id="username" name="username" placeholder="输入用户名" style="background: white"><br>
+        密码:<br><input type="password" id="password" name="password" placeholder="输入密码" style="background: white"><br><br>
+        <img src="/code" alt="" width="100" height="32" class="passcode" style="height:43px;cursor:pointer;"
+             onclick="this.src=this.src+'?'">
+        <input type="text" class="input input-big" name="code" placeholder="填写验证码" style="background: white"
+               data-validate="required:请填写右侧的验证码"/><br>
+        <br>
+        <input type="button" id="loginBtn" class="button button-block bg-main text-big input-big" value="登录">
+        <a href="register.html" >没账号？点我注册</a>
+    </div>
+</div>
+
+</body>
+</html>

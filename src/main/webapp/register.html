@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>新用户注册</title>
+    <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+    <!--    <script src="js/jquery.js"></script>-->
+    <!--    <script src="js/layerJs/layer.js"></script>-->
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            background-color: black;
+        }
+
+        #regist {
+            color: aqua;
+            width: 600px;
+            height: 400px;
+            margin: 100px 30% 0 30%;
+            padding: 100px 100px 0 100px;
+            background-image: url("imgs/1.jpg");
+            background-size: 600px 400px;
+            background-repeat: no-repeat;
+        }
+    </style>
+    <script>
+        $(function () {
+            $('#registBtn').click(function () {
+                let username = $("#registerName").val();
+                let password = $("#password").val();
+                let user = {"username": username, "password": password};
+                let url = "register";
+                $.post(
+                    url, {"data": JSON.stringify(user)},
+                    function (result) {
+                        let json = JSON.parse(result);
+                        if (json.isOk == true) {
+                                 alert("注册成功")
+                            window.location.href = "http://localhost:8080/login.html";
+                        } else {
+                            alert("用户名重复");
+                        }
+                    }
+                )
+            });
+            $('#rePassword').blur(function () {
+                if ($(this).val() != $('#password').val()) {
+                    alert('两次输入密码不一致');
+                }
+            });
+        })
+
+
+    </script>
+</head>
+<body>
+<div id="regist">
+    用户名:<input type="text" id="registerName" name="username" placeholder="请输入用户名" style="background: white"> <br><br>
+    密码:<input type="password" id="password" name="password" placeholder="输入密码" style="background: white"><br><br>
+    确认密码:<input type="password" id="rePassword" placeholder="输入密码" style="background: white"><br><br>
+    <input type="button" id="registBtn" value="注册" style="width: 400px;background: white">
+</div>
+</body>
+</html>
